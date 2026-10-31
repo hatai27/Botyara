@@ -2,7 +2,13 @@
 // npm i discord.js   (Node 18+)
 // Запуск: DISCORD_TOKEN=... CHANNEL_ID=... FIREBASE_URL=... FIREBASE_SECRET=... node bot.js
 
+const http = require("http");
 const { Client, GatewayIntentBits } = require("discord.js");
+
+// Мини HTTP-сервер: нужен Render (Web Service) и для пинга через UptimeRobot
+http
+  .createServer((req, res) => res.end("ok"))
+  .listen(process.env.PORT || 3000);
 
 const TOKEN = process.env.DISCORD_TOKEN;
 const CHANNEL_ID = process.env.CHANNEL_ID;           // ID канала (#chanel)
@@ -77,5 +83,5 @@ client.on("messageCreate", async (msg) => {
   }
 });
 
-client.once("ready", () => console.log("Bridge online:", client.user.tag));
+client.once("clientReady", () => console.log("Bridge online:", client.user.tag));
 client.login(TOKEN);
