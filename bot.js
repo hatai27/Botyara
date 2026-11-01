@@ -84,4 +84,15 @@ client.on("messageCreate", async (msg) => {
 });
 
 client.once("clientReady", () => console.log("Bridge online:", client.user.tag));
-client.login(TOKEN);
+console.log(
+  "ENV check:",
+  "TOKEN", TOKEN ? `ok (${TOKEN.length} симв.)` : "ПУСТО",
+  "| CHANNEL_ID", CHANNEL_ID ? "ok" : "ПУСТО",
+  "| FIREBASE_URL", FIREBASE_URL ? "ok" : "ПУСТО",
+  "| SECRET", FIREBASE_SECRET ? "ok" : "ПУСТО"
+);
+
+client.on("error", (e) => console.error("Client error:", e));
+process.on("unhandledRejection", (e) => console.error("Unhandled:", e));
+
+client.login(TOKEN).catch((e) => console.error("LOGIN FAILED:", e.code || "", e.message));
